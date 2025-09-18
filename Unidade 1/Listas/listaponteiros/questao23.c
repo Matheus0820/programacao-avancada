@@ -35,6 +35,10 @@ int main() {
         
         if (i < (n-1))  printf(" - ");
     }
-    
+
+    // Liberando memória
+    free(vet1);
+    free(vet2);
+    free(resultado);
     return 0;
 }
