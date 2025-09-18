@@ -13,7 +13,7 @@ void my_qsort(int *vetor, int size, int (*pf_c)(int, int)) { // Recebe um vetor 
 
     for (int i = 0; i < size; i++) {
         for(int j = 0; j < size; j++) {
-            if ((*pf_c)(vetor[i], vetor[j]) == 1) {
+            if ((*pf_c)(vetor[i], vetor[j]) == -1) {
                 int aux = vetor[i];
                 vetor[i] = vetor[j];
                 vetor[j] = aux;
