@@ -4,7 +4,8 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
-        main.cpp
+        main.cpp \
+        sculptor.cpp
 
 HEADERS += \
-    classes.h
+    sculptor.h
