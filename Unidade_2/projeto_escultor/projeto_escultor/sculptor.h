@@ -1,6 +1,12 @@
 #ifndef SCULPTOR_H
 #define SCULPTOR_H
 
+struct Voxel {
+    float r,g,b; // Cores
+    float a; // Trasnparencia
+    bool show; // Incluido ou nao
+};
+
 class Sculptor {
 private:
     Voxel ***v; // 3D matrix
