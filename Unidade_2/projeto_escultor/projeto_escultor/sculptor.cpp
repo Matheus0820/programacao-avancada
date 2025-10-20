@@ -1,4 +1,6 @@
 #include "sculptor.h"
+#include <cstdlib>
+#include <fstream>
 
 Sculptor::Sculptor(int _nx, int _ny, int _nz) {
     nx = _nx;
@@ -125,9 +127,43 @@ void Sculptor::cutSphere(int xcenter, int ycenter, int zcenter, int radius) {
 }
 
 void Sculptor::putEllipsoid(int xcenter, int ycenter, int zcenter, int rx, int ry, int rz) {
+    // Sendo um ponto contido em um elipsoide tendo que satisfazer a seguinte equação: 
+    //  ((i - xcenter)**2 / rx**2) + ((j - ycenter)**2 / ry**2) + ((w - zcenter)**2 / rz**2) <= 1
+
+    for (int i = 0; i <= nx; i++) {
+        for(int j = 0; j <= ny; j++) {
+            for(int w = 0; w <= nz; w++) {
+                if (((i - xcenter)**2 / rx**2) + ((j - ycenter)**2 / ry**2) + ((w - zcenter)**2 / rz**2) <= 1) {
+                    v[i][j][w].show = true;
+                    v[i][j][w].r = r;
+                    v[i][j][w].g = g;
+                    v[i][j][w].b = b;
+                    v[i][j][w].a = a;
+                }
+            }
+        }   
+    }
 
 }
 
 void Sculptor::cutEllipsoid(int xcenter, int ycenter, int zcenter, int rx, int ry, int rz) {
+    for (int i = 0; i <= nx; i++) {
+        for(int j = 0; j <= ny; j++) {
+            for(int w = 0; w <= nz; w++) {
+                if (((i - xcenter)**2 / rx**2) + ((j - ycenter)**2 / ry**2) + ((w - zcenter)**2 / rz**2) <= 1) {
+                    v[i][j][w].show = false;
+                }
+            }
+        }   
+    }
 
+}
+
+void Sculptor::writeOFF(const char* filename) {
+    std::ofstream fout;
+    
+    fout.open(filename);
+    if (!fout.is_open()) {
+        exit(1);
+    }
 }
