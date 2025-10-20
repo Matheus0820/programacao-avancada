@@ -93,8 +93,8 @@ void Sculptor::cutBox(int x0, int x1, int y0, int y1, int z0, int z1) {
 }
 
 void Sculptor::putSphere(int xcenter, int ycenter, int zcenter, int radius) {
-    // Vê uma formar de vê os pontos que estão contidos pela esfera,
-    // ou seja satisfazem a equação da esfera -> (xcenter - a)**2 + (ycenter - b)**2 + (zcenter - c)**2 <= radius**2
+    // Vê uma forma de ver os pontos que estão contidos pela esfera,
+    // ou seja, satisfazem a equação da esfera -> (xcenter - a)**2 + (ycenter - b)**2 + (zcenter - c)**2 <= radius**2
     for (int i = 0; i <= nx; i++) {
         for (int j = 0; j <= ny; j++) {
             for(int w = 0; w = nz; w++) {
@@ -111,8 +111,8 @@ void Sculptor::putSphere(int xcenter, int ycenter, int zcenter, int radius) {
 }
 
 void Sculptor::cutSphere(int xcenter, int ycenter, int zcenter, int radius) {
-    // Vê uma formar de vê os pontos que estão contidos pela esfera,
-    // ou seja satisfazem a equação da esfera -> (xcenter - a)**2 + (ycenter - b)**2 + (zcenter - c)**2 <= radius**2
+    // Vê uma forma de ver os pontos que estão contidos pela esfera,
+    // ou seja, satisfazem a equação da esfera -> (xcenter - a)**2 + (ycenter - b)**2 + (zcenter - c)**2 <= radius**2
     for (int i = 0; i <= nx; i++) {
         for (int j = 0; j <= ny; j++) {
             for(int w = 0; w = nz; w++) {
@@ -122,4 +122,12 @@ void Sculptor::cutSphere(int xcenter, int ycenter, int zcenter, int radius) {
             }
         }
     }
+}
+
+void Sculptor::putEllipsoid(int xcenter, int ycenter, int zcenter, int rx, int ry, int rz) {
+
+}
+
+void Sculptor::cutEllipsoid(int xcenter, int ycenter, int zcenter, int rx, int ry, int rz) {
+
 }
