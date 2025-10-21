@@ -162,8 +162,64 @@ void Sculptor::cutEllipsoid(int xcenter, int ycenter, int zcenter, int rx, int r
 void Sculptor::writeOFF(const char* filename) {
     std::ofstream fout;
     
+    // Abrindo arquivo
     fout.open(filename);
     if (!fout.is_open()) {
         exit(1);
+    }
+    
+    // Calculando a quantidade de voxels, vertices e faces
+    int nVoxel = nx * ny * nz;
+    int nVertices = nVoxel * 8;
+    int nFaces = nVoxel * 6;
+    
+    // Escrevendo parte inicial do arquivo
+    fout << "OFF" << std::endl;
+    fout << nVertices << " " << nFaces << " " << 0 << std::endl;
+    
+    // Definindo Propriedades e escrevendo os vertices
+    for (int i = 0; i < nx; i++) {
+        for (int j = 0; j < nx; j++) {
+            for (int w = 0; w < nx; w++) {
+                if (v[i][j][w].show == true) {
+                    float x = (float) i;
+                    float y = (float) j;
+                    float z = (float) w;
+                    float r = v[i][j][w].r;
+                    float g = v[i][j][w].g;
+                    float b = v[i][j][w].b;
+                    float a = v[i][j][w].a;
+                    
+                    // Definindo as posições dos 8 vértices do cubo unitário para cada ponto da matriz de voxel
+                    
+                    // V0
+                    fout << x - 0.5 << " " << y + 0.5 << " " << z - 0.5 << " " << r << " " << g << " " << b << " " << a << std::endl;
+                    
+                    // V1
+                    fout << x - 0.5 << " " << y - 0.5 << " " << z - 0.5 << " " << r << " " << g << " " << b << " " << a << std::endl;
+                    
+                    // V2
+                    fout << x + 0.5 << " " << y - 0.5 << " " << z - 0.5 << " " << r << " " << g << " " << b << " " << a << std::endl;
+                    
+                    // V3
+                    fout << x + 0.5 << " " << y + 0.5 << " " << z - 0.5 << " " << r << " " << g << " " << b << " " << a << std::endl;
+                    
+                    // V4
+                    fout << x - 0.5 << " " << y + 0.5 << " " << z + 0.5 << " " << r << " " << g << " " << b << " " << a << std::endl;
+                    
+                    // V5
+                    fout << x - 0.5 << " " << y - 0.5 << " " << z + 0.5 << " " << r << " " << g << " " << b << " " << a << std::endl;
+                    
+                    // V6
+                    fout << x + 0.5 << " " << y - 0.5 << " " << z + 0.5 << " " << r << " " << g << " " << b << " " << a << std::endl;
+                    
+                    // V7
+                    fout << x + 0.5 << " " << y + 0.5 << " " << z + 0.5 << " " << r << " " << g << " " << b << " " << a << std::endl;
+                    
+                    // Definindo Faces dos blocos unitários
+                    
+                }
+            }
+        }
     }
 }
