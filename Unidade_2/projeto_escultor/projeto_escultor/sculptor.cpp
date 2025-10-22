@@ -1,6 +1,7 @@
 #include "sculptor.h"
 #include <cstdlib>
 #include <fstream>
+#include <cmath>
 
 Sculptor::Sculptor(int _nx, int _ny, int _nz) {
     nx = _nx;
@@ -100,7 +101,7 @@ void Sculptor::putSphere(int xcenter, int ycenter, int zcenter, int radius) {
     for (int i = 0; i <= nx; i++) {
         for (int j = 0; j <= ny; j++) {
             for(int w = 0; w = nz; w++) {
-                if ((xcenter - i)**2 + (ycenter - j)**2 + (zcenter - w)**2 <= radius**2) {
+                if (std::pow(xcenter - i, 2) + std::pow(ycenter - j, 2) + std::pow(zcenter - w, 2) <= std::pow(radius, 2)) {
                     v[i][j][w].show = true;
                     v[i][j][w].r = r;
                     v[i][j][w].g = g;
@@ -118,7 +119,7 @@ void Sculptor::cutSphere(int xcenter, int ycenter, int zcenter, int radius) {
     for (int i = 0; i <= nx; i++) {
         for (int j = 0; j <= ny; j++) {
             for(int w = 0; w = nz; w++) {
-                if ((xcenter - i)**2 + (ycenter - j)**2 + (zcenter - w)**2 <= radius**2) {
+                if (std::pow(xcenter - i, 2) + std::pow(ycenter - j, 2) + std::pow(zcenter - w, 2) <= std::pow(radius, 2)) {
                     v[i][j][w].show = false;
                 }
             }
@@ -133,7 +134,7 @@ void Sculptor::putEllipsoid(int xcenter, int ycenter, int zcenter, int rx, int r
     for (int i = 0; i <= nx; i++) {
         for(int j = 0; j <= ny; j++) {
             for(int w = 0; w <= nz; w++) {
-                if (((i - xcenter)**2 / rx**2) + ((j - ycenter)**2 / ry**2) + ((w - zcenter)**2 / rz**2) <= 1) {
+                if ((std::pow(i - xcenter, 2) / std::pow(rx, 2)) + (std::pow(j - ycenter, 2) / std::pow(ry, 2)) + (std::pow(w - zcenter, 2) / std::pow(rz, 2)) <= 1) {
                     v[i][j][w].show = true;
                     v[i][j][w].r = r;
                     v[i][j][w].g = g;
@@ -150,7 +151,7 @@ void Sculptor::cutEllipsoid(int xcenter, int ycenter, int zcenter, int rx, int r
     for (int i = 0; i <= nx; i++) {
         for(int j = 0; j <= ny; j++) {
             for(int w = 0; w <= nz; w++) {
-                if (((i - xcenter)**2 / rx**2) + ((j - ycenter)**2 / ry**2) + ((w - zcenter)**2 / rz**2) <= 1) {
+                if ((std::pow(i - xcenter, 2) / std::pow(rx, 2)) + (std::pow(j - ycenter, 2) / std::pow(ry, 2)) + (std::pow(w - zcenter, 2) / std::pow(rz, 2)) <= 1) {
                     v[i][j][w].show = false;
                 }
             }
@@ -178,6 +179,7 @@ void Sculptor::writeOFF(const char* filename) {
     fout << nVertices << " " << nFaces << " " << 0 << std::endl;
     
     // Definindo Propriedades e escrevendo os vertices
+    int indexVertice = 0; // Variável que vai interar, por meio dos for, sobre as posições de cada vertice para montar as faces
     for (int i = 0; i < nx; i++) {
         for (int j = 0; j < nx; j++) {
             for (int w = 0; w < nx; w++) {
@@ -193,33 +195,55 @@ void Sculptor::writeOFF(const char* filename) {
                     // Definindo as posições dos 8 vértices do cubo unitário para cada ponto da matriz de voxel
                     
                     // V0
-                    fout << x - 0.5 << " " << y + 0.5 << " " << z - 0.5 << " " << r << " " << g << " " << b << " " << a << std::endl;
+                    fout << x - 0.5 << " " << y + 0.5 << " " << z - 0.5 << " " << std::endl;
                     
                     // V1
-                    fout << x - 0.5 << " " << y - 0.5 << " " << z - 0.5 << " " << r << " " << g << " " << b << " " << a << std::endl;
+                    fout << x - 0.5 << " " << y - 0.5 << " " << z - 0.5 << " " << std::endl;
                     
                     // V2
-                    fout << x + 0.5 << " " << y - 0.5 << " " << z - 0.5 << " " << r << " " << g << " " << b << " " << a << std::endl;
+                    fout << x + 0.5 << " " << y - 0.5 << " " << z - 0.5 << " " << std::endl;
                     
                     // V3
-                    fout << x + 0.5 << " " << y + 0.5 << " " << z - 0.5 << " " << r << " " << g << " " << b << " " << a << std::endl;
+                    fout << x + 0.5 << " " << y + 0.5 << " " << z - 0.5 << " " << std::endl;
                     
                     // V4
-                    fout << x - 0.5 << " " << y + 0.5 << " " << z + 0.5 << " " << r << " " << g << " " << b << " " << a << std::endl;
+                    fout << x - 0.5 << " " << y + 0.5 << " " << z + 0.5 << " " << std::endl;
                     
                     // V5
-                    fout << x - 0.5 << " " << y - 0.5 << " " << z + 0.5 << " " << r << " " << g << " " << b << " " << a << std::endl;
+                    fout << x - 0.5 << " " << y - 0.5 << " " << z + 0.5 << " " << std::endl;
                     
                     // V6
-                    fout << x + 0.5 << " " << y - 0.5 << " " << z + 0.5 << " " << r << " " << g << " " << b << " " << a << std::endl;
+                    fout << x + 0.5 << " " << y - 0.5 << " " << z + 0.5 << " " << std::endl;
                     
                     // V7
-                    fout << x + 0.5 << " " << y + 0.5 << " " << z + 0.5 << " " << r << " " << g << " " << b << " " << a << std::endl;
+                    fout << x + 0.5 << " " << y + 0.5 << " " << z + 0.5 << " " << std::endl;
                     
                     // Definindo Faces dos blocos unitários
-                    
+                    // Face 1 -> Seguindo padrão informado no matérial do site do professor
+                    fout << 4 << " " << indexVertice << " " << indexVertice + 3 << " " << indexVertice + 2 << " " << indexVertice + 1 << " " << r << " " << g << " " << b << " " << a << std::endl;
+
+                    // Face 2
+                    fout << 4 << " " << indexVertice + 4 << " " << indexVertice + 5 << " " << indexVertice + 6 << " " << indexVertice + 7 << " " << r << " " << g << " " << b << " " << a << std::endl;
+
+                    // Face 3
+                    fout << 4 << " " << indexVertice << " " << indexVertice + 1 << " " << indexVertice + 5 << " " << indexVertice + 4 << " " << r << " " << g << " " << b << " " << a << std::endl;
+
+                    // Face 4
+                    fout << 4 << " " << indexVertice << " " << indexVertice + 4 << " " << indexVertice + 7 << " " << indexVertice + 3 << " " << r << " " << g << " " << b << " " << a << std::endl;
+
+                    // Face 5
+                    fout << 4 << " " << indexVertice + 3 << " " << indexVertice + 7 << " " << indexVertice + 6 << " " << indexVertice + 2 << " " << r << " " << g << " " << b << " " << a << std::endl;
+
+                    // Face 6
+                    fout << 4 << " " << indexVertice + 1 << " " << indexVertice + 2 << " " << indexVertice + 6 << " " << indexVertice + 5 << " " << r << " " << g << " " << b << " " << a << std::endl;
+
+                    // Incrementando mais 8 vertices na variavel de controle "indexVertice"
+                    indexVertice += 8;
                 }
             }
         }
     }
+
+    // Fechando arquivo;
+    fout.close();
 }
