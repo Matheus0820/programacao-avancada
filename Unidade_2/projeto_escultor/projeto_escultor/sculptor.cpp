@@ -9,6 +9,10 @@ Sculptor::Sculptor(int _nx, int _ny, int _nz) {
     nz = _nz;
 }
 
+Sculptor::~Sculptor() {
+
+}
+
 void Sculptor::setColor(float r, float g, float b, float a) {
     this->r = r;
     this->g = g;
@@ -52,7 +56,7 @@ void Sculptor::putBox(int x0, int x1, int y0, int y1, int z0, int z1) {
     // Fazendo com que todo voxel dentro dos intervalos dados sejam visivéis e com a cor atual do desenho;
     for (int i = x0; i <= x1; i++) {
         for (int j = y0; j <= y1; j++) {
-            for(int w = z0; w = z1; w++) {
+            for(int w = z0; w <= z1; w++) {
                 v[i][j][w].show = true;
                 v[i][j][w].r = r;
                 v[i][j][w].g = g;
@@ -87,7 +91,7 @@ void Sculptor::cutBox(int x0, int x1, int y0, int y1, int z0, int z1) {
     // Fazendo com que todo voxel dentro dos intervalos dados tenham a visibilidade (show) igual a false;
     for (int i = x0; i <= x1; i++) {
         for (int j = y0; j <= y1; j++) {
-            for(int w = z0; w = z1; w++) {
+            for(int w = z0; w <= z1; w++) {
                 v[i][j][w].show = false;
             }
         }
@@ -100,7 +104,7 @@ void Sculptor::putSphere(int xcenter, int ycenter, int zcenter, int radius) {
     // ou seja, satisfazem a equação da esfera -> (xcenter - a)**2 + (ycenter - b)**2 + (zcenter - c)**2 <= radius**2
     for (int i = 0; i <= nx; i++) {
         for (int j = 0; j <= ny; j++) {
-            for(int w = 0; w = nz; w++) {
+            for(int w = 0; w <= nz; w++) {
                 if (std::pow(xcenter - i, 2) + std::pow(ycenter - j, 2) + std::pow(zcenter - w, 2) <= std::pow(radius, 2)) {
                     v[i][j][w].show = true;
                     v[i][j][w].r = r;
@@ -118,7 +122,7 @@ void Sculptor::cutSphere(int xcenter, int ycenter, int zcenter, int radius) {
     // ou seja, satisfazem a equação da esfera -> (xcenter - a)**2 + (ycenter - b)**2 + (zcenter - c)**2 <= radius**2
     for (int i = 0; i <= nx; i++) {
         for (int j = 0; j <= ny; j++) {
-            for(int w = 0; w = nz; w++) {
+            for(int w = 0; w <= nz; w++) {
                 if (std::pow(xcenter - i, 2) + std::pow(ycenter - j, 2) + std::pow(zcenter - w, 2) <= std::pow(radius, 2)) {
                     v[i][j][w].show = false;
                 }
