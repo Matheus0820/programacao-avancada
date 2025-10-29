@@ -7,10 +7,29 @@ Sculptor::Sculptor(int _nx, int _ny, int _nz) {
     nx = _nx;
     ny = _ny;
     nz = _nz;
+
+    v = new Voxel**[nx];
+    for (int i = 0; i < nz; i++) {
+        v[i] = new Voxel*[ny];
+        for (int j = 0; j < ny; j++) {
+            v[i][j] = new Voxel[nz];
+            for (int w = 0; w < nz; w++) {
+                v[i][j][w].show = false;
+            }
+        }
+    }
+
+
 }
 
 Sculptor::~Sculptor() {
-
+    for (int i = 0; i < nx; i++) {
+        for (int j = 0; j < ny; j++) {
+            delete[] v[i][j];
+        }
+        delete[] v[i];
+    }
+    delete[] v;
 }
 
 void Sculptor::setColor(float r, float g, float b, float a) {
@@ -54,9 +73,9 @@ void Sculptor::putBox(int x0, int x1, int y0, int y1, int z0, int z1) {
     }
 
     // Fazendo com que todo voxel dentro dos intervalos dados sejam visivéis e com a cor atual do desenho;
-    for (int i = x0; i <= x1; i++) {
-        for (int j = y0; j <= y1; j++) {
-            for(int w = z0; w <= z1; w++) {
+    for (int i = x0; i < x1; i++) {
+        for (int j = y0; j < y1; j++) {
+            for(int w = z0; w < z1; w++) {
                 v[i][j][w].show = true;
                 v[i][j][w].r = r;
                 v[i][j][w].g = g;
@@ -89,9 +108,9 @@ void Sculptor::cutBox(int x0, int x1, int y0, int y1, int z0, int z1) {
     }
 
     // Fazendo com que todo voxel dentro dos intervalos dados tenham a visibilidade (show) igual a false;
-    for (int i = x0; i <= x1; i++) {
-        for (int j = y0; j <= y1; j++) {
-            for(int w = z0; w <= z1; w++) {
+    for (int i = x0; i < x1; i++) {
+        for (int j = y0; j < y1; j++) {
+            for(int w = z0; w < z1; w++) {
                 v[i][j][w].show = false;
             }
         }
@@ -102,9 +121,9 @@ void Sculptor::cutBox(int x0, int x1, int y0, int y1, int z0, int z1) {
 void Sculptor::putSphere(int xcenter, int ycenter, int zcenter, int radius) {
     // Vê uma forma de ver os pontos que estão contidos pela esfera,
     // ou seja, satisfazem a equação da esfera -> (xcenter - a)**2 + (ycenter - b)**2 + (zcenter - c)**2 <= radius**2
-    for (int i = 0; i <= nx; i++) {
-        for (int j = 0; j <= ny; j++) {
-            for(int w = 0; w <= nz; w++) {
+    for (int i = 0; i < nx; i++) {
+        for (int j = 0; j < ny; j++) {
+            for(int w = 0; w < nz; w++) {
                 if (std::pow(xcenter - i, 2) + std::pow(ycenter - j, 2) + std::pow(zcenter - w, 2) <= std::pow(radius, 2)) {
                     v[i][j][w].show = true;
                     v[i][j][w].r = r;
@@ -120,9 +139,9 @@ void Sculptor::putSphere(int xcenter, int ycenter, int zcenter, int radius) {
 void Sculptor::cutSphere(int xcenter, int ycenter, int zcenter, int radius) {
     // Vê uma forma de ver os pontos que estão contidos pela esfera,
     // ou seja, satisfazem a equação da esfera -> (xcenter - a)**2 + (ycenter - b)**2 + (zcenter - c)**2 <= radius**2
-    for (int i = 0; i <= nx; i++) {
-        for (int j = 0; j <= ny; j++) {
-            for(int w = 0; w <= nz; w++) {
+    for (int i = 0; i < nx; i++) {
+        for (int j = 0; j < ny; j++) {
+            for(int w = 0; w < nz; w++) {
                 if (std::pow(xcenter - i, 2) + std::pow(ycenter - j, 2) + std::pow(zcenter - w, 2) <= std::pow(radius, 2)) {
                     v[i][j][w].show = false;
                 }
@@ -135,9 +154,9 @@ void Sculptor::putEllipsoid(int xcenter, int ycenter, int zcenter, int rx, int r
     // Sendo um ponto contido em um elipsoide tendo que satisfazer a seguinte equação: 
     //  ((i - xcenter)**2 / rx**2) + ((j - ycenter)**2 / ry**2) + ((w - zcenter)**2 / rz**2) <= 1
 
-    for (int i = 0; i <= nx; i++) {
-        for(int j = 0; j <= ny; j++) {
-            for(int w = 0; w <= nz; w++) {
+    for (int i = 0; i = nx; i++) {
+        for(int j = 0; j = ny; j++) {
+            for(int w = 0; w = nz; w++) {
                 if ((std::pow(i - xcenter, 2) / std::pow(rx, 2)) + (std::pow(j - ycenter, 2) / std::pow(ry, 2)) + (std::pow(w - zcenter, 2) / std::pow(rz, 2)) <= 1) {
                     v[i][j][w].show = true;
                     v[i][j][w].r = r;
@@ -152,9 +171,9 @@ void Sculptor::putEllipsoid(int xcenter, int ycenter, int zcenter, int rx, int r
 }
 
 void Sculptor::cutEllipsoid(int xcenter, int ycenter, int zcenter, int rx, int ry, int rz) {
-    for (int i = 0; i <= nx; i++) {
-        for(int j = 0; j <= ny; j++) {
-            for(int w = 0; w <= nz; w++) {
+    for (int i = 0; i = nx; i++) {
+        for(int j = 0; j = ny; j++) {
+            for(int w = 0; w = nz; w++) {
                 if ((std::pow(i - xcenter, 2) / std::pow(rx, 2)) + (std::pow(j - ycenter, 2) / std::pow(ry, 2)) + (std::pow(w - zcenter, 2) / std::pow(rz, 2)) <= 1) {
                     v[i][j][w].show = false;
                 }
@@ -183,7 +202,6 @@ void Sculptor::writeOFF(const char* filename) {
     fout << nVertices << " " << nFaces << " " << 0 << std::endl;
     
     // Definindo Propriedades e escrevendo os vertices
-    int indexVertice = 0; // Variável que vai interar, por meio dos for, sobre as posições de cada vertice para montar as faces
     for (int i = 0; i < nx; i++) {
         for (int j = 0; j < nx; j++) {
             for (int w = 0; w < nx; w++) {
@@ -221,7 +239,16 @@ void Sculptor::writeOFF(const char* filename) {
                     
                     // V7
                     fout << x + 0.5 << " " << y + 0.5 << " " << z + 0.5 << " " << std::endl;
-                    
+                }
+            }
+        }
+    }
+
+    int indexVertice = 0; // Variável que vai interar, por meio dos for, sobre as posições de cada vertice para montar as faces
+    for (int i = 0; i < nx; i++) {
+        for (int j = 0; j < nx; j++) {
+            for (int w = 0; w < nx; w++) {
+                if (v[i][j][w].show == true) {
                     // Definindo Faces dos blocos unitários
                     // Face 1 -> Seguindo padrão informado no matérial do site do professor
                     fout << 4 << " " << indexVertice << " " << indexVertice + 3 << " " << indexVertice + 2 << " " << indexVertice + 1 << " " << r << " " << g << " " << b << " " << a << std::endl;
