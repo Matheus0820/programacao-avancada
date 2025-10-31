@@ -7,16 +7,17 @@ using namespace std;
 
 int main() {
   // Criando objeto da classe sculptor
-  Sculptor obj1(30, 30, 30);
+    Sculptor obj1(3, 3, 3);
   
   // Setando a  cor padrao para branco
-  obj1.setColor(1.0, 1.0, 1.0, 1.0);
-  
+    obj1.setColor(1.0, 1.0, 1.0, 1.0);
+    obj1.putVoxel(0, 0, 0);
+
   // Criando uma caixa branca vazada e sem o topo
-  obj1.putBox(5, 25, 5, 25, 5, 25);
-  obj1.cutBox(6, 24, 6, 24, 4, 24);
+  // obj1.putBox(1, 3, 1, 3, 1, 3);
+  // obj1.cutBox(2, 2, 2, 2, 2, 2);
 
   // Criando arquivo
-  obj1.writeOFF("saida.off");
+    obj1.writeOFF("saida.off");
   
 }
