@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <fstream>
 #include <cmath>
+#include <iomanip>
 
 Sculptor::Sculptor(int _nx, int _ny, int _nz) {
     nx = _nx;
@@ -9,7 +10,7 @@ Sculptor::Sculptor(int _nx, int _ny, int _nz) {
     nz = _nz;
 
     v = new Voxel**[nx];
-    for (int i = 0; i < nz; i++) {
+    for (int i = 0; i < nx; i++) {
         v[i] = new Voxel*[ny];
         for (int j = 0; j < ny; j++) {
             v[i][j] = new Voxel[nz];
@@ -154,9 +155,9 @@ void Sculptor::putEllipsoid(int xcenter, int ycenter, int zcenter, int rx, int r
     // Sendo um ponto contido em um elipsoide tendo que satisfazer a seguinte equação: 
     //  ((i - xcenter)**2 / rx**2) + ((j - ycenter)**2 / ry**2) + ((w - zcenter)**2 / rz**2) <= 1
 
-    for (int i = 0; i = nx; i++) {
-        for(int j = 0; j = ny; j++) {
-            for(int w = 0; w = nz; w++) {
+    for (int i = 0; i < nx; i++) {
+        for(int j = 0; j < ny; j++) {
+            for(int w = 0; w < nz; w++) {
                 if ((std::pow(i - xcenter, 2) / std::pow(rx, 2)) + (std::pow(j - ycenter, 2) / std::pow(ry, 2)) + (std::pow(w - zcenter, 2) / std::pow(rz, 2)) <= 1) {
                     v[i][j][w].show = true;
                     v[i][j][w].r = r;
@@ -171,9 +172,9 @@ void Sculptor::putEllipsoid(int xcenter, int ycenter, int zcenter, int rx, int r
 }
 
 void Sculptor::cutEllipsoid(int xcenter, int ycenter, int zcenter, int rx, int ry, int rz) {
-    for (int i = 0; i = nx; i++) {
-        for(int j = 0; j = ny; j++) {
-            for(int w = 0; w = nz; w++) {
+    for (int i = 0; i < nx; i++) {
+        for(int j = 0; j < ny; j++) {
+            for(int w = 0; w < nz; w++) {
                 if ((std::pow(i - xcenter, 2) / std::pow(rx, 2)) + (std::pow(j - ycenter, 2) / std::pow(ry, 2)) + (std::pow(w - zcenter, 2) / std::pow(rz, 2)) <= 1) {
                     v[i][j][w].show = false;
                 }
@@ -191,9 +192,21 @@ void Sculptor::writeOFF(const char* filename) {
     if (!fout.is_open()) {
         exit(1);
     }
+
+    // Definindo que todos os número do tipo float vão ter duas casas decimais após a virgula
+    fout << std::fixed << std::setprecision(2);
     
     // Calculando a quantidade de voxels, vertices e faces
-    int nVoxel = nx * ny * nz;
+    int nVoxel = 0;
+    for (int i = 0; i < nx; i++) {
+        for (int j = 0; j < ny; j++) {
+            for (int w = 0; w < nz; w++) {
+                if (v[i][j][w].show == true) {
+                    nVoxel++;
+                }
+            }
+        }
+    }
     int nVertices = nVoxel * 8;
     int nFaces = nVoxel * 6;
     
@@ -203,16 +216,13 @@ void Sculptor::writeOFF(const char* filename) {
     
     // Definindo Propriedades e escrevendo os vertices
     for (int i = 0; i < nx; i++) {
-        for (int j = 0; j < nx; j++) {
-            for (int w = 0; w < nx; w++) {
+        for (int j = 0; j < ny; j++) {
+            for (int w = 0; w < nz; w++) {
                 if (v[i][j][w].show == true) {
                     float x = (float) i;
                     float y = (float) j;
                     float z = (float) w;
-                    float r = v[i][j][w].r;
-                    float g = v[i][j][w].g;
-                    float b = v[i][j][w].b;
-                    float a = v[i][j][w].a;
+
                     
                     // Definindo as posições dos 8 vértices do cubo unitário para cada ponto da matriz de voxel
                     
@@ -246,27 +256,33 @@ void Sculptor::writeOFF(const char* filename) {
 
     int indexVertice = 0; // Variável que vai interar, por meio dos for, sobre as posições de cada vertice para montar as faces
     for (int i = 0; i < nx; i++) {
-        for (int j = 0; j < nx; j++) {
-            for (int w = 0; w < nx; w++) {
+        for (int j = 0; j < ny; j++) {
+            for (int w = 0; w < nz; w++) {
                 if (v[i][j][w].show == true) {
+                    // Pegando as cores de cada voxel
+                    float red = v[i][j][w].r;
+                    float green = v[i][j][w].g;
+                    float blue = v[i][j][w].b;
+                    float alpha = v[i][j][w].a;
+
                     // Definindo Faces dos blocos unitários
                     // Face 1 -> Seguindo padrão informado no matérial do site do professor
-                    fout << 4 << " " << indexVertice << " " << indexVertice + 3 << " " << indexVertice + 2 << " " << indexVertice + 1 << " " << r << " " << g << " " << b << " " << a << std::endl;
+                    fout << 4 << " " << indexVertice << " " << indexVertice + 3 << " " << indexVertice + 2 << " " << indexVertice + 1 << " " << red << " " << green << " " << blue << " " << alpha << std::endl;
 
                     // Face 2
-                    fout << 4 << " " << indexVertice + 4 << " " << indexVertice + 5 << " " << indexVertice + 6 << " " << indexVertice + 7 << " " << r << " " << g << " " << b << " " << a << std::endl;
+                    fout << 4 << " " << indexVertice + 4 << " " << indexVertice + 5 << " " << indexVertice + 6 << " " << indexVertice + 7 << " " << red << " " << green << " " << blue << " " << alpha << std::endl;
 
                     // Face 3
-                    fout << 4 << " " << indexVertice << " " << indexVertice + 1 << " " << indexVertice + 5 << " " << indexVertice + 4 << " " << r << " " << g << " " << b << " " << a << std::endl;
+                    fout << 4 << " " << indexVertice << " " << indexVertice + 1 << " " << indexVertice + 5 << " " << indexVertice + 4 << " " << red << " " << green << " " << blue << " " << alpha << std::endl;
 
                     // Face 4
-                    fout << 4 << " " << indexVertice << " " << indexVertice + 4 << " " << indexVertice + 7 << " " << indexVertice + 3 << " " << r << " " << g << " " << b << " " << a << std::endl;
+                    fout << 4 << " " << indexVertice << " " << indexVertice + 4 << " " << indexVertice + 7 << " " << indexVertice + 3 << " " << red << " " << green << " " << blue << " " << alpha << std::endl;
 
                     // Face 5
-                    fout << 4 << " " << indexVertice + 3 << " " << indexVertice + 7 << " " << indexVertice + 6 << " " << indexVertice + 2 << " " << r << " " << g << " " << b << " " << a << std::endl;
+                    fout << 4 << " " << indexVertice + 3 << " " << indexVertice + 7 << " " << indexVertice + 6 << " " << indexVertice + 2 << " " << red << " " << green << " " << blue << " " << alpha << std::endl;
 
                     // Face 6
-                    fout << 4 << " " << indexVertice + 1 << " " << indexVertice + 2 << " " << indexVertice + 6 << " " << indexVertice + 5 << " " << r << " " << g << " " << b << " " << a << std::endl;
+                    fout << 4 << " " << indexVertice + 1 << " " << indexVertice + 2 << " " << indexVertice + 6 << " " << indexVertice + 5 << " " << red << " " << green << " " << blue << " " << alpha << std::endl;
 
                     // Incrementando mais 8 vertices na variavel de controle "indexVertice"
                     indexVertice += 8;
