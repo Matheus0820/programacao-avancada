@@ -1,10 +1,15 @@
 #ifndef PUTVOXEL_H
 #define PUTVOXEL_H
 
-class PutVoxel
-{
+#include "figurageometrica.h"
+
+class PutVoxel : public FiguraGeometrica {
+    int x, y, z;
+
 public:
-    PutVoxel();
+    PutVoxel(int x, int y, int z);
+    ~PutVoxel();
+    void draw(Sculptor &t);
 };
 
 #endif // PUTVOXEL_H

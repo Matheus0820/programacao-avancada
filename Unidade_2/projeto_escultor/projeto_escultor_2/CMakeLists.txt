@@ -14,7 +14,10 @@ add_executable(projeto_escultor_2 main.cpp
     putsphere.h putsphere.cpp
     cutsphere.h cutsphere.cpp
     putellipsoid.h putellipsoid.cpp
-    cutellipsoid.h cutellipsoid.cpp)
+    cutellipsoid.h cutellipsoid.cpp
+    sculptor.h sculptor.cpp
+
+)
 
 include(GNUInstallDirs)
 install(TARGETS projeto_escultor_2
