@@ -8,6 +8,6 @@ CutVoxel::CutVoxel(int x, int y, int z) {
 
 CutVoxel::~CutVoxel() {}
 
-CutVoxel::draw(Sculptor &t) {
-    t.v[x][y][z].show = false;
+void CutVoxel::draw(Sculptor &t) {
+    t.getVoxel()[x][y][z].show = false;
 }

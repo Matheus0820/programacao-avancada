@@ -1,4 +1,5 @@
 #include "putvoxel.h"
+#include "sculptor.h"
 
 PutVoxel::PutVoxel(int x, int y, int z) {
     this->x = x;
@@ -8,10 +9,10 @@ PutVoxel::PutVoxel(int x, int y, int z) {
 
 PutVoxel::~PutVoxel() {}
 
-PutVoxel::draw(Sculptor &t) {
-    t.v[x][y][z].show = true;
-    t.v[x][y][z].r = r;
-    t.v[x][y][z].g = g;
-    t.v[x][y][z].b = b;
-    t.v[x][y][z].a = a;
+void PutVoxel::draw(Sculptor &t) {
+    t.getVoxel()[x][y][z].show = true;
+    t.getVoxel()[x][y][z].r = r;
+    t.getVoxel()[x][y][z].g = g;
+    t.getVoxel()[x][y][z].b = b;
+    t.getVoxel()[x][y][z].a = a;
 }

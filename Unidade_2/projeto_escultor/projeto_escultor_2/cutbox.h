@@ -6,9 +6,9 @@
 class CutBox : public FiguraGeometrica
 {
     int x0, y0, z0;
-    int x, y, z;
+    int x1, y1, z1;
 public:
-    CutBox(int x0, int y0, int z0, int x, int y, int z);
+    CutBox(int x0, int y0, int z0, int x1, int y1, int z1);
     ~CutBox();
     void draw(Sculptor &t);
 };

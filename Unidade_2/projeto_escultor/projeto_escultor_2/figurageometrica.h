@@ -4,17 +4,15 @@
 #include "sculptor.h"
 
 class FiguraGeometrica {
-public:
-    Sculptor &t;
-
 protected:
     float r, g, b, a;
+    Sculptor &t;
 
 public:
     FiguraGeometrica();
     virtual ~FiguraGeometrica() = 0;
     virtual void draw(Sculptor &t) = 0;
-    void setColor(r, g, b, a);
+    void setColor(float r, float g, float b, float a);
 };
 
 #endif // FIGURAGEOMETRICA_H

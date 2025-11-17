@@ -1,17 +1,17 @@
 #include "cutbox.h"
 
-CutBox::CutBox(int x0, int y0, int z0, int x, int y, int z) {
+CutBox::CutBox(int x0, int y0, int z0, int x1, int y1, int z1) {
     this->x0 = x0;
     this->y0 = y0;
     this->z0 = z0;
-    this->x = x;
-    this->y = y;
-    this->z = z;
+    this->x1 = x1;
+    this->y1 = y1;
+    this->z1 = z1;
 }
 
 CutBox::~CutBox() {}
 
-CutBox::draw(Sculptor &t) {
+void CutBox::draw(Sculptor &t) {
     // Definindo intervalo padrão no modo crescente
     int aux; // Variável auxíliar
     if(x0 > x1) {
@@ -33,7 +33,7 @@ CutBox::draw(Sculptor &t) {
     for (int i = x0; i < x1; i++) {
         for (int j = y0; j < y1; j++) {
             for(int w = z0; w < z1; w++) {
-                t.v[i][j][w].show = false;
+                t.getVoxel()[i][j][w].show = false;
             }
         }
     }
