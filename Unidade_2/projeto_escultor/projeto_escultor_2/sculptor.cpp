@@ -18,6 +18,6 @@ int Sculptor::getNz() {
     return nz;
 }
 
-Voxel Sculptor::getVoxel() {
+Voxel*** Sculptor::getVoxel() {
     return v;
 }

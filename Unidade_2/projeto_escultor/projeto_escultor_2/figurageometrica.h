@@ -6,7 +6,7 @@
 class FiguraGeometrica {
 protected:
     float r, g, b, a;
-    Sculptor &t;
+    int x0, y0, z0;
 
 public:
     FiguraGeometrica();

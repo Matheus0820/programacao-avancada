@@ -1,4 +1,6 @@
 #include "cutsphere.h"
+#include <cmath>
+#include <cstdlib>
 
 CutSphere::CutSphere(int xcenter, int ycenter, int zcenter, int radius) {
     this->xcenter = xcenter;
@@ -9,14 +11,14 @@ CutSphere::CutSphere(int xcenter, int ycenter, int zcenter, int radius) {
 
 CutSphere::~CutSphere() {}
 
-CutSphere::draw(Sculptor &t) {
+void CutSphere::draw(Sculptor &t) {
     // Vê uma forma de ver os pontos que estão contidos pela esfera,
     // ou seja, satisfazem a equação da esfera -> (xcenter - a)**2 + (ycenter - b)**2 + (zcenter - c)**2 <= radius**2
-    for (int i = 0; i < nx; i++) {
-        for (int j = 0; j < ny; j++) {
-            for(int w = 0; w < nz; w++) {
+    for (int i = 0; i < t.getNx(); i++) {
+        for (int j = 0; j < t.getNy(); j++) {
+            for(int w = 0; w < t.getNz(); w++) {
                 if (std::pow(xcenter - i, 2) + std::pow(ycenter - j, 2) + std::pow(zcenter - w, 2) <= std::pow(radius, 2)) {
-                    v[i][j][w].show = false;
+                    t.getVoxel()[i][j][w].show = false;
                 }
             }
         }

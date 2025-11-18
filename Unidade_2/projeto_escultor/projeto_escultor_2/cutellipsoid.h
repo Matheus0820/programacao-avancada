@@ -4,7 +4,7 @@
 #include "figurageometrica.h"
 
 class CutEllipsoid : public FiguraGeometrica {
-    int xcenter, ycenter, zcenter, rx, ry, rz
+    int xcenter, ycenter, zcenter, rx, ry, rz;
 
 public:
     CutEllipsoid(int xcenter, int ycenter, int zcenter, int rx, int ry, int rz);

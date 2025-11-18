@@ -14,19 +14,19 @@ PutEllipsoid::PutEllipsoid(int xcenter, int ycenter, int zcenter, int rx, int ry
 
 PutEllipsoid::~PutEllipsoid() {}
 
-PutEllipsoid::draw(Sculptor &t) {
+void PutEllipsoid::draw(Sculptor &t) {
     // Sendo um ponto contido em um elipsoide tendo que satisfazer a seguinte equação:
     //  ((i - xcenter)**2 / rx**2) + ((j - ycenter)**2 / ry**2) + ((w - zcenter)**2 / rz**2) <= 1
 
-    for (int i = 0; i < nx; i++) {
-        for(int j = 0; j < ny; j++) {
-            for(int w = 0; w < nz; w++) {
+    for (int i = 0; i < t.getNx(); i++) {
+        for(int j = 0; j < t.getNy(); j++) {
+            for(int w = 0; w < t.getNz(); w++) {
                 if ((std::pow(i - xcenter, 2) / std::pow(rx, 2)) + (std::pow(j - ycenter, 2) / std::pow(ry, 2)) + (std::pow(w - zcenter, 2) / std::pow(rz, 2)) <= 1) {
-                    v[i][j][w].show = true;
-                    v[i][j][w].r = r;
-                    v[i][j][w].g = g;
-                    v[i][j][w].b = b;
-                    v[i][j][w].a = a;
+                     t.getVoxel()[i][j][w].show = true;
+                     t.getVoxel()[i][j][w].r = r;
+                     t.getVoxel()[i][j][w].g = g;
+                     t.getVoxel()[i][j][w].b = b;
+                     t.getVoxel()[i][j][w].a = a;
                 }
             }
         }

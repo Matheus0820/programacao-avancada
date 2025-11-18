@@ -15,7 +15,7 @@ public:
     int getNx();
     int getNy();
     int getNz();
-    Voxel getVoxel();
+    Voxel*** getVoxel();
 };
 
 #endif // SCULPTOR_H
