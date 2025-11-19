@@ -28,7 +28,7 @@ int main() {
     vector<FiguraGeometrica*> figs; // Vetor para ponteiros dos filhos da classe FiguraGeometrica
 
     // Abrindo arquivo
-    fin.open("C:\\Users\\Matheus Ramos\\Documents\\repositorios\\programacao-avancada\\Unidade_2\\projeto_escultor\\projeto_escultor_2\\figura3d.txt");
+    fin.open("C:\\Users\\Matheus Ramos\\Documents\\repositorios\\programacao-avancada\\Unidade_2\\projeto_escultor\\projeto_escultor_2\\figura3d_in.txt");
 
     if(!fin.is_open()) { // Se o arquivo não foi aberto ele encerra o programa
         cout << "Deu errado" << endl;
@@ -43,12 +43,14 @@ int main() {
     psct = new Sculptor(nx, ny, nz);
 
     /* Lendo arquivo e criando objetos */
+    cout << "Entrando no while" << endl;
     while(fin.good()) { // Contina no laço se arquivo estiver bom para leitura
         if(fin.good()) { // Se estiver bom para leitura ele ler
             fin >> word; // Pega a primeira palavra da linha
 
             // Variáveis bastantes utilizadas
             float r, g, b, a;
+            cout << "Interacao inicio - word: " << word << endl;
 
             if(word.compare("putvoxel")) {
                 int x0, y0, z0;
@@ -76,6 +78,7 @@ int main() {
                 pfig = new PutBox(x0, y0, z0, x1, y1, z1);
                 pfig->setColor(r, g, b, a);
                 figs.push_back(pfig);
+                cout << "PutBox: "<< x0 << " -  " << y0 << " - " << z0 << endl;
             }
             else if(word.compare("cutbox")) {
                 int x0, x1, y0, y1, z0, z1;
@@ -84,6 +87,7 @@ int main() {
                 // Criando objeto
                 pfig = new CutBox(x0, y0, z0, x1, y1, z1);
                 figs.push_back(pfig);
+                cout << "CutBox: "<< x0 << " -  " << y0 << " - " << z0 << endl;
             }
             else if(word.compare("putsphere")) {
                 int x0, y0, z0, raio;
@@ -125,14 +129,20 @@ int main() {
     }
 
     /* Desenhando cada Figura Geometrica no Sculptor e deletando os ponteiros para cada figura geometrica */
-
-
+    for(int i = 0; i < figs.size(); i++) {
+        figs[i]->draw(*psct);
+        delete figs[i];
+    }
+    cout << "Gerando imagem 3d" << endl;
     /* Gerando a Figura 3D */
+    psct->writeOFF("saida.off");
 
 
 
     fin.close();
     delete psct;
+    delete pfig;
+    cout << "Código finalizado" << endl;
     return 0;
 
 }
