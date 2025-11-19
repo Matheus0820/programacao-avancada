@@ -12,6 +12,7 @@ class Sculptor {
     int nx, ny, nz;
 public:
     Sculptor(int _nx, int _ny, int _nz);
+    void writeOFF(const char* filename);
     int getNx();
     int getNy();
     int getNz();
