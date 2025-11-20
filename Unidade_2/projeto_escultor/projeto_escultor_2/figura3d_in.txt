@@ -1,3 +1,87 @@
-dim 10 10 10
-putbox 0 9 0 9 0 9 0.5 0.5 0.5 1
-cutbox 1 8 1 9 1 9
+dim 300 300 300
+putvoxel 123 45 200 1 1 1 0.5
+putvoxel 15 88 177 1 1 1 0.5
+putvoxel 291 12 44 1 1 1 0.5
+putvoxel 90 199 255 1 1 1 0.5
+putvoxel 204 17 63 1 1 1 0.5
+putvoxel 33 144 288 1 1 1 0.5
+putvoxel 188 16 221 1 1 1 0.5
+putvoxel 261 45 112 1 1 1 0.5
+putvoxel 77 266 99 1 1 1 0.5
+putvoxel 112 78 45 1 1 1 0.5
+putvoxel 199 255 130 1 1 1 0.5
+putvoxel 143 17 277 1 1 1 0.5
+putvoxel 288 199 88 1 1 1 0.5
+putvoxel 231 42 266 1 1 1 0.5
+putvoxel 54 144 188 1 1 1 0.5
+putvoxel 220 155 199 1 1 1 0.5
+putvoxel 177 188 240 1 1 1 0.5
+putvoxel 45 12 299 1 1 1 0.5
+putvoxel 134 67 211 1 1 1 0.5
+putvoxel 200 245 81 1 1 1 0.5
+putvoxel 299 34 90 1 1 1 0.5
+putvoxel 167 123 277 1 1 1 0.5
+putvoxel 14 277 55 1 1 1 0.5
+putvoxel 180 188 99 1 1 1 0.5
+putvoxel 244 111 231 1 1 1 0.5
+putvoxel 167 299 199 1 1 1 0.5
+putvoxel 52 88 167 1 1 1 0.5
+putvoxel 223 200 144 1 1 1 0.5
+putvoxel 177 133 55 1 1 1 0.5
+putvoxel 144 200 166 1 1 1 0.5
+putvoxel 88 32 211 1 1 1 0.5
+putvoxel 255 164 288 1 1 1 0.5
+putvoxel 41 280 90 1 1 1 0.5
+putvoxel 199 177 102 1 1 1 0.5
+putvoxel 299 255 14 1 1 1 0.5
+putvoxel 167 204 19 1 1 1 0.5
+putvoxel 109 66 230 1 1 1 0.5
+putvoxel 44 277 149 1 1 1 0.5
+putvoxel 199 211 88 1 1 1 0.5
+putvoxel 10 45 88 1 1 1 0.5
+putvoxel 133 188 99 1 1 1 0.5
+putvoxel 166 200 231 1 1 1 0.5
+putvoxel 77 155 144 1 1 1 0.5
+putvoxel 122 99 245 1 1 1 0.5
+putvoxel 188 66 199 1 1 1 0.5
+putvoxel 212 278 55 1 1 1 0.5
+putvoxel 77 112 266 1 1 1 0.5
+putvoxel 199 55 211 1 1 1 0.5
+putvoxel 33 144 166 1 1 1 0.5
+putellipsoid 150 150 150 60 3 60 1 1 0 0.5
+cutellipsoid 150 150 150 45 3 45
+putellipsoid 150 150 150 60 60 3 1 1 0 0.5
+cutellipsoid 150 150 150 45 45 3
+putsphere 150 150 150 25 0 0 0 1
+cutsphere 150 150 150 20
+putsphere 80 80 80 5 0.24 0.32 0.56 1
+putellipsoid 90 90 90 3 3 1 0.5 0.5 0.5 0.5
+putbox 0 3 0 3 0 3 1 1 1 1
+cutbox 1 2 1 2 1 3
+putbox 12 16 45 49 100 104 1 1 1 1
+cutbox 13 15 46 48 101 103
+cutsphere 14 47 102 1
+putbox 200 205 10 14 250 255 1 1 1 1
+cutbox 201 204 11 13 251 254
+cutsphere 202 12 252 1
+putbox 80 85 199 203 33 37 1 1 1 1
+cutbox 81 84 200 202 34 36
+cutsphere 82 201 35 1
+putbox 150 154 150 154 150 154 1 1 1 1
+cutbox 151 153 151 153 151 153
+cutsphere 152 152 152 1
+putbox 5 9 290 294 120 124 1 1 1 1
+cutbox 6 8 291 293 121 123
+cutsphere 7 292 122 1
+putbox 250 254 40 44 60 64 1 1 1 1
+cutbox 251 253 41 43 61 63
+cutsphere 252 42 62 1
+putbox 100 104 100 104 280 284 1 1 1 1
+cutbox 101 103 101 103 281 283
+cutsphere 102 102 282 1
+putbox 30 34 200 204 170 174 1 1 1 1
+cutbox 31 33 201 203 171 173
+cutsphere 32 202 172 1
+putbox 220 224 120 124 5 9 1 1 1 1
+cutbox 221 223 121 123 6 8
+cutsphere 222 122 7 1

@@ -23,19 +23,19 @@ int main() {
     // Objetos
     ifstream fin; // Objeto da classe fstream - Guarda o arquivo de entrada
     string word; // Objeto da classe String
-    FiguraGeometrica *pfig; // Ponteiro para figura geometrica
-    Sculptor *psct;
+    FiguraGeometrica *pfig = nullptr; // Ponteiro para figura geometrica
+    Sculptor *psct = nullptr;
     vector<FiguraGeometrica*> figs; // Vetor para ponteiros dos filhos da classe FiguraGeometrica
 
     // Abrindo arquivo
-    fin.open("C:\\Users\\Matheus Ramos\\Documents\\repositorios\\programacao-avancada\\Unidade_2\\projeto_escultor\\projeto_escultor_2\\figura3d_in.txt");
+    fin.open("..\\..\\figura3d_in.txt");
 
     if(!fin.is_open()) { // Se o arquivo não foi aberto ele encerra o programa
-        cout << "Deu errado" << endl;
+        cout << "Arquivo não encontrado. Verifique o endereço do arquivo 'figura3d_in.txt'" << endl;
         exit(0);
 
     }
-    cout << "Deu certo" << endl;
+    cout << "Arquivo encontrado. Iniciando o processo de leitura." << endl;
 
     // Lendo as primeira linha do arquivo .txt -> Definindo as dimensões do Sculptor
     int nx, ny, nz;
@@ -50,9 +50,9 @@ int main() {
 
             // Variáveis bastantes utilizadas
             float r, g, b, a;
-            cout << "Interacao inicio - word: " << word << endl;
+            cout << "Implementando metodo: " << word << endl;
 
-            if(word.compare("putvoxel")) {
+            if(word.compare("putvoxel") == 0) {
                 int x0, y0, z0;
                 fin >> x0 >> y0 >> z0 >> r >> g >> b >> a;
 
@@ -62,7 +62,7 @@ int main() {
                 figs.push_back(pfig);
 
             }
-            else if(word.compare("cutvoxel")) {
+            else if(word.compare("cutvoxel") == 0) {
                 int x0, y0, z0;
                 fin >> x0 >> y0 >> z0;
 
@@ -70,7 +70,7 @@ int main() {
                 pfig = new CutVoxel(x0, y0, z0);
                 figs.push_back(pfig);
             }
-            else if(word.compare("putbox")) {
+            else if(word.compare("putbox") == 0) {
                 int x0, x1, y0, y1, z0, z1;
                 fin >> x0 >> x1 >> y0 >> y1 >> z0 >> z1 >> r >> g >> b >> a;
 
@@ -78,18 +78,16 @@ int main() {
                 pfig = new PutBox(x0, y0, z0, x1, y1, z1);
                 pfig->setColor(r, g, b, a);
                 figs.push_back(pfig);
-                cout << "PutBox: "<< x0 << " -  " << y0 << " - " << z0 << endl;
             }
-            else if(word.compare("cutbox")) {
+            else if(word.compare("cutbox") == 0) {
                 int x0, x1, y0, y1, z0, z1;
                 fin >> x0 >> x1 >> y0 >> y1 >> z0 >> z1;
 
                 // Criando objeto
                 pfig = new CutBox(x0, y0, z0, x1, y1, z1);
                 figs.push_back(pfig);
-                cout << "CutBox: "<< x0 << " -  " << y0 << " - " << z0 << endl;
             }
-            else if(word.compare("putsphere")) {
+            else if(word.compare("putsphere") == 0) {
                 int x0, y0, z0, raio;
                 fin >> x0 >> y0 >> z0 >> raio >> r >> g >> b >> a;
 
@@ -98,7 +96,7 @@ int main() {
                 pfig->setColor(r, g, b, a);
                 figs.push_back(pfig);
             }
-            else if(word.compare("cutsphere")) {
+            else if(word.compare("cutsphere") == 0) {
                 int x0, y0, z0, raio;
                 fin >> x0 >> y0 >> z0 >> raio;
 
@@ -106,7 +104,7 @@ int main() {
                 pfig = new CutSphere(x0, y0, z0, raio);
                 figs.push_back(pfig);
             }
-            else if(word.compare("putellipsoid")) {
+            else if(word.compare("putellipsoid") == 0) {
                 int x0, y0, z0, rx, ry, rz;
                 fin >> x0 >> y0 >> z0 >> rx >> ry >> rz >> r >> g >> b >> a;
 
@@ -115,7 +113,7 @@ int main() {
                 pfig->setColor(r, g, b, a);
                 figs.push_back(pfig);
             }
-            else if(word.compare("cutellipsoid")) {
+            else if(word.compare("cutellipsoid") == 0) {
                 int x0, y0, z0, rx, ry, rz;
                 fin >> x0 >> y0 >> z0 >> rx >> ry >> rz;
 
@@ -129,20 +127,21 @@ int main() {
     }
 
     /* Desenhando cada Figura Geometrica no Sculptor e deletando os ponteiros para cada figura geometrica */
+    cout << "Inicidando a chamada do metodo 'draw'..." << endl;
     for(int i = 0; i < figs.size(); i++) {
         figs[i]->draw(*psct);
         delete figs[i];
     }
-    cout << "Gerando imagem 3d" << endl;
+
+    cout << "Gerando imagem 3d..." << endl;
     /* Gerando a Figura 3D */
-    psct->writeOFF("saida.off");
+    psct->writeOFF("..\\..\\figura3d_out.off");
+    cout << "Figura 3d gerada!" << endl;
 
-
-
+    // Deletando os ponteiros
     fin.close();
     delete psct;
     delete pfig;
-    cout << "Código finalizado" << endl;
     return 0;
 
 }
