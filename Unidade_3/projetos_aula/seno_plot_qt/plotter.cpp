@@ -10,6 +10,9 @@ Plotter::Plotter(QWidget *parent): QWidget{parent} {
     amp = 1;
     freq = 1;
     vel = 0;
+
+    // Ativando o temporizador
+    startTimer(50);
 }
 
 void Plotter::paintEvent(QPaintEvent *event) {
@@ -50,9 +53,8 @@ void Plotter::paintEvent(QPaintEvent *event) {
     x0 = 0; // Lado esquedo da tela
     y0 = height()/2; // Metade da tela
 
-    float porc_amplitude = 1;
-    float fase = 0.0;
-    float frequencia = 1; // Frequência em Hz
+    float porc_amplitude = amp;
+    float frequencia = freq; // Frequência em Hz
 
     // Laço que vai atualizar o valor de y1 em função do seno
     for(x1 = 1; x1 < width(); x1++) {
@@ -66,4 +68,37 @@ void Plotter::paintEvent(QPaintEvent *event) {
         y0 = y1;
     }
 
+}
+
+void Plotter::timerEvent(QTimerEvent *event)
+{
+    fase = fase + vel;
+    repaint();
+
+}
+
+void Plotter::setAmplitude(int amp) {
+    this->amp = amp/100.0;
+    repaint();
+}
+
+void Plotter::setFrequencia(int freq)
+{
+    this->freq = freq;
+    repaint();
+}
+
+void Plotter::setVelocidade(int vel)
+{
+    this->vel = vel;
+    repaint();
+}
+
+void Plotter::resetValores()
+{
+    fase = 0;
+    amp = 1;
+    freq = 1;
+    vel = 0;
+    repaint();
 }

@@ -15,14 +15,15 @@ private:
 public:
     explicit Plotter(QWidget *parent = nullptr);
     void paintEvent(QPaintEvent *event);
-    // void timerEvent(QTimerEvent *event);
+    void timerEvent(QTimerEvent *event);
     // void mousePressEvent(QMouseEvent *event);
     // void mouseMoveEvent(QMouseEvent *event);
 
 public slots:
-    // void setAmplitude(int amp);
-    // void setFrequencia(int freq);
-    // void setVelocidade(int vel);
+    void setAmplitude(int amp);
+    void setFrequencia(int freq);
+    void setVelocidade(int vel);
+    void resetValores();
 
 signals:
     // void mudaX(int);
