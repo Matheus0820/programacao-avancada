@@ -11,15 +11,28 @@ class MainWindow;
 
 class MainWindow : public QMainWindow
 {
-  Q_OBJECT
+    int min, max;
+    bool submit, connected;
+    int timing;
+    Q_OBJECT
 
 public:
   explicit MainWindow(QWidget *parent = 0);
   ~MainWindow();
-  
-  void tcpConnect();
-public slots:
   void putData();
+  void timerEvent(QTimerEvent *event);
+  bool getSubmit();
+  void setConnected(bool connected);
+  bool getConnected();
+
+public slots:
+    void tcpConnect();
+    void setMin(int min);
+    void setMax(int max);
+    void setTrueSubmit();
+    void setFalseSubmit();
+    void setTiming(int timing);
+
 private:
   Ui::MainWindow *ui;
   QTcpSocket *socket;
