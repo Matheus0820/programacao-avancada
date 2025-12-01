@@ -1,0 +1,9 @@
+# ninja log v6
+3	337	1764585002614752121	produce_client_module_autogen/timestamp	4e81efe4fe04a900
+3	337	1764585002614752121	produce_client_module_autogen/mocs_compilation.cpp	4e81efe4fe04a900
+3	337	1764585002614752121	/home/matheusramos703/Documentos/repositorios/programacao-avancada/Unidade_3/projeto_unidade_3/produce_client_module/build/Desktop_Qt_6_9_3-Release/produce_client_module_autogen/timestamp	4e81efe4fe04a900
+3	337	1764585002614752121	/home/matheusramos703/Documentos/repositorios/programacao-avancada/Unidade_3/projeto_unidade_3/produce_client_module/build/Desktop_Qt_6_9_3-Release/produce_client_module_autogen/mocs_compilation.cpp	4e81efe4fe04a900
+338	1915	1764585002621752008	CMakeFiles/produce_client_module.dir/produce_client_module_autogen/mocs_compilation.cpp.o	3a81b97c58ab091c
+338	1951	1764585002622733678	CMakeFiles/produce_client_module.dir/main.cpp.o	8b28fc10b9c005e3
+338	2369	1764585002622946463	CMakeFiles/produce_client_module.dir/mainwindow.cpp.o	4186612eecccddeb
+2369	2737	1764585004652719427	produce_client_module	b6d1699eff4a27a6

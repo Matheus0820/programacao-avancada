@@ -1,0 +1,2 @@
+set(__QT_DEPLOY_TARGET_produce_client_module_FILE /home/matheusramos703/Documentos/repositorios/programacao-avancada/Unidade_3/projeto_unidade_3/produce_client_module/build/Desktop_Qt_6_9_3-Release/produce_client_module)
+set(__QT_DEPLOY_TARGET_produce_client_module_TYPE EXECUTABLE)
