@@ -14,6 +14,7 @@ class MainWindow : public QMainWindow
     int min, max;
     bool submit, connected;
     int timing;
+    int timerId = -1;
     Q_OBJECT
 
 public:
@@ -27,6 +28,7 @@ public:
 
 public slots:
     void tcpConnect();
+    void tcpDisconnect();
     void setMin(int min);
     void setMax(int max);
     void setTrueSubmit();

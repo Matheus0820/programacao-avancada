@@ -4,54 +4,70 @@
 
 MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent), ui(new Ui::MainWindow){
+    // Inicializando valores
     submit = false;
+    connected = false;
+    min = 0;
+    max = 1;
+    timing = 1000;
+    this->timerId = startTimer(timing);
+
 
     ui->setupUi(this);
     socket = new QTcpSocket(this);
     ui->labelStatus->setText("Initialized...");
     ui->labelStatus->setStyleSheet("color: grey");
 
-  connect(ui->button_start,
-          SIGNAL(clicked(bool)),
-          this,
-          SLOT(putData()));
-
-  connect(
+    // Conexão botão 'Connect'
+    connect(
       ui->button_connect,
       SIGNAL(clicked(bool)),
       this,
       SLOT(tcpConnect())
       );
 
-  connect(
+    // Conexão botão 'Disconnect'
+    connect(
+      ui->button_disconnect,
+      SIGNAL(clicked(bool)),
+      this,
+      SLOT(tcpDisconnect())
+      );
+
+    // Conexão atualiza 'min'
+    connect(
       ui->horizontalSlider_min,
       SIGNAL(valueChanged(int)),
       this,
       SLOT(setMin(int))
       );
 
-  connect(
+    // Conexão atualiza 'max'
+    connect(
       ui->horizontalSlider_max,
       SIGNAL(valueChanged(int)),
       this,
       SLOT(setMax(int))
       );
 
-  connect(
+    // Conexão botão 'Start'
+    connect(
       ui->button_start,
       SIGNAL(clicked(bool)),
       this,
       SLOT(setTrueSubmit())
       );
 
-  connect(
+    // Conexão botão 'Stop'
+    connect(
       ui->button_stop,
       SIGNAL(clicked(bool)),
       this,
       SLOT(setFalseSubmit())
       );
 
-  connect(
+    // Conexão atualiza 'timing'
+    connect(
       ui->horizontalSlider_timing,
       SIGNAL(valueChanged(int)),
       this,
@@ -66,15 +82,27 @@ void MainWindow::tcpConnect(){
     socket->connectToHost(ip,1234);
     if(socket->waitForConnected(3000)){
         qDebug() << "Connected";
+        this->connected = true;
         ui->labelStatus->setText("Connected");
         ui->labelStatus->setStyleSheet("color: green");
 
     }
     else{
         qDebug() << "Disconnected";
+        this->connected = false;
         ui->labelStatus->setText("Disconnected");
         ui->labelStatus->setStyleSheet("color: red");
     }
+}
+
+void MainWindow::tcpDisconnect()
+{
+    socket->disconnectFromHost();
+    qDebug() << "Disconnected";
+    this->connected = false;
+    ui->labelStatus->setText("Disconnected");
+    ui->labelStatus->setStyleSheet("color: red");
+
 }
 
 void MainWindow::setMin(int min)
@@ -99,7 +127,9 @@ void MainWindow::setFalseSubmit()
 
 void MainWindow::setTiming(int timing)
 {
-    this->timing = timing;
+    this->timing = timing * 1000;
+    killTimer(this->timerId);
+    this->timerId = startTimer(this->timing);
 }
 
 void MainWindow::putData(){
@@ -122,14 +152,17 @@ void MainWindow::putData(){
   }
 }
 
+void MainWindow::timerEvent(QTimerEvent *event)
+{
+    if(connected && submit) {
+        putData();
+        qDebug() << "Enviando em: " << this->timing << " ms";
+    }
+}
+
 MainWindow::~MainWindow(){
   delete socket;
   delete ui;
 }
 
-void MainWindow::timerEvent(QTimerEvent *event)
-{
-    if(submit) {
-        putData();
-    }
-}
+

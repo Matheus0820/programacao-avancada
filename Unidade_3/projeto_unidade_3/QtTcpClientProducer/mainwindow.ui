@@ -139,6 +139,9 @@
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
          <widget class="QSlider" name="horizontalSlider_max">
+          <property name="minimum">
+           <number>1</number>
+          </property>
           <property name="maximum">
            <number>100</number>
           </property>
@@ -166,7 +169,14 @@
            </widget>
           </item>
           <item>
-           <widget class="QLCDNumber" name="lcdMax"/>
+           <widget class="QLCDNumber" name="lcdMax">
+            <property name="midLineWidth">
+             <number>0</number>
+            </property>
+            <property name="intValue" stdset="0">
+             <number>1</number>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -207,6 +217,12 @@
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="value" stdset="0">
+           <double>1.000000000000000</double>
+          </property>
+          <property name="intValue" stdset="0">
+           <number>1</number>
           </property>
          </widget>
         </item>
