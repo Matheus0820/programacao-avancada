@@ -85,6 +85,7 @@ void MainWindow::tcpConnect(){
         this->connected = true;
         ui->labelStatus->setText("Connected");
         ui->labelStatus->setStyleSheet("color: green");
+        putMessage("Connected", QColor(0, 255, 0));
 
     }
     else{
@@ -92,6 +93,7 @@ void MainWindow::tcpConnect(){
         this->connected = false;
         ui->labelStatus->setText("Disconnected");
         ui->labelStatus->setStyleSheet("color: red");
+        putMessage("Disconnected", QColor(255, 0, 0));
     }
 }
 
@@ -102,6 +104,7 @@ void MainWindow::tcpDisconnect()
     this->connected = false;
     ui->labelStatus->setText("Disconnected");
     ui->labelStatus->setStyleSheet("color: red");
+    putMessage("Disconnected", QColor(255, 0, 0));
 
 }
 
@@ -117,12 +120,25 @@ void MainWindow::setMax(int max)
 
 void MainWindow::setTrueSubmit()
 {
-    this->submit = true;
+
+    if (connected) {
+        this->submit = true;
+
+        putMessage("Start sending...", QColor(0, 0, 255));
+        ui->labelStatus->setText("Connected - Sending");
+        ui->labelStatus->setStyleSheet("color: blue");
+    }
 }
 
 void MainWindow::setFalseSubmit()
 {
-    this->submit = false;
+    if (connected) {
+        this->submit = false;
+
+        putMessage("Stop sending...", QColor(252, 75, 8));
+        ui->labelStatus->setText("Connected - Not Sending");
+        ui->labelStatus->setStyleSheet("color: orange");
+    }
 }
 
 void MainWindow::setTiming(int timing)
@@ -143,8 +159,9 @@ void MainWindow::putData(){
     str = "set "+ QString::number(msecdate) + " " +
         QString::number(( min + (rand() % (max - min + 1))))+"\r\n";
 
-      qDebug() << str;
-      qDebug() << socket->write(str.toStdString().c_str())
+    putMessage(str, ui->listWidget->palette().text().color());
+    qDebug() << str;
+    qDebug() << socket->write(str.toStdString().c_str())
                << " bytes written";
       if(socket->waitForBytesWritten(3000)){
         qDebug() << "wrote";
@@ -159,6 +176,19 @@ void MainWindow::timerEvent(QTimerEvent *event)
         qDebug() << "Enviando em: " << this->timing << " ms";
     }
 }
+
+void MainWindow::putMessage(const QString &mensagem, const QColor &cor)
+{
+    QListWidgetItem *item = new QListWidgetItem(mensagem);
+
+    // Setando cor
+    QBrush brush(cor);
+    item->setForeground(brush);
+
+    // Adicionando item no listWidgets
+    ui->listWidget->addItem(item);
+}
+
 
 MainWindow::~MainWindow(){
   delete socket;

@@ -25,6 +25,7 @@ public:
   bool getSubmit();
   void setConnected(bool connected);
   bool getConnected();
+  void putMessage(const QString& mensagem, const QColor& cor);
 
 public slots:
     void tcpConnect();
