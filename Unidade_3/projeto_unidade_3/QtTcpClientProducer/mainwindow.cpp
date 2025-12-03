@@ -137,7 +137,7 @@ void MainWindow::setFalseSubmit()
 
         putMessage("Stop sending...", QColor(252, 75, 8));
         ui->labelStatus->setText("Connected - Not Sending");
-        ui->labelStatus->setStyleSheet("color: orange");
+        ui->labelStatus->setStyleSheet("color: #FC4B08");
     }
 }
 
@@ -156,8 +156,11 @@ void MainWindow::putData(){
   if(socket->state()== QAbstractSocket::ConnectedState){
 
     msecdate = QDateTime::currentDateTime().toMSecsSinceEpoch();
+    float valor_aleatorio = min + (static_cast<float>(rand()) / RAND_MAX) * (max - min);
+
     str = "set "+ QString::number(msecdate) + " " +
-        QString::number(( min + (rand() % (max - min + 1))))+"\r\n";
+       QString::number(valor_aleatorio, 'g', 4)+"\r\n";
+
 
     putMessage(str, ui->listWidget->palette().text().color());
     qDebug() << str;
