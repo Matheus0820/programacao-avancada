@@ -15,6 +15,7 @@ class MainWindow : public QMainWindow
     bool receive, connected;
     int timing; // Em milisegundos
     int timerId = -1;
+    QString ipGetData;
 
 public:
   explicit MainWindow(QWidget *parent = 0);
@@ -23,6 +24,8 @@ public:
   void getData();
   void setReceive(bool receive);
   void setConnected(bool connected);
+  void addItemListWidget(const QString ip);
+  void setIpGetData(const QString ipGetData);
 
   
 public slots:
@@ -31,10 +34,12 @@ public slots:
   void setTrueReceive();
   void setFalseReceive();
   void setTiming(int timing);
+  void updateIp();
 
 private:
   Ui::MainWindow *ui;
   QTcpSocket *socket;
+
 };
 
 #endif // MAINWINDOW_H

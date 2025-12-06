@@ -6,8 +6,12 @@ MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent),
   ui(new Ui::MainWindow)
 {
+
   ui->setupUi(this);
   socket = new QTcpSocket(this);
+  this->timerId = startTimer(1000); // Tempo padrão de recepção de dados é 1 segundo
+  ui->labelStatus->setText("Initialized...");
+  ui->labelStatus->setStyleSheet("color: grey");
 
     // Connect do botão Connect
   connect(
@@ -22,6 +26,38 @@ MainWindow::MainWindow(QWidget *parent) :
       SIGNAL(clicked(bool)),
       this,
       SLOT(tcpDisconnect())
+      );
+
+  // Connect do botão Start
+  connect(
+      ui->pushButtonStart,
+      SIGNAL(clicked(bool)),
+      this,
+      SLOT(setTrueReceive())
+      );
+
+  // Connect do botão Stop
+  connect(
+      ui->pushButtonStop,
+      SIGNAL(clicked(bool)),
+      this,
+      SLOT(setFalseReceive())
+      );
+
+  // Connect do botão Update
+  connect(
+      ui->pushButtonUpdate,
+      SIGNAL(clicked(bool)),
+      this,
+      SLOT(updateIp())
+      );
+
+  // Connect do Timing
+  connect(
+      ui->horizontalSliderTiming,
+      SIGNAL(valueChanged(int)),
+      this,
+      SLOT(setTiming(int))
       );
 
   // connect(ui->pushButtonGet,
@@ -39,6 +75,8 @@ void MainWindow::tcpConnect(){
     qDebug() << "Connected";
     ui->labelStatus->setText("Connect");
     ui->labelStatus->setStyleSheet("color: green");
+    setConnected(true);
+    addItemListWidget(ip);
   }
   else{
       qDebug() << "Disconnected";
@@ -58,12 +96,21 @@ void MainWindow::tcpDisconnect()
 
 void MainWindow::setTrueReceive()
 {
-    setReceive(true);
+    if (connected) {
+        setReceive(true);
+        ui->labelStatus->setText("Connected - Receiving data");
+        ui->labelStatus->setStyleSheet("color: blue");
+    }
 }
 
 void MainWindow::setFalseReceive()
 {
-    setReceive(false);
+    if (connected) {
+        setReceive(false);
+        ui->labelStatus->setText("Connected - Not receiving data");
+        ui->labelStatus->setStyleSheet("color: #FC4B08");
+    }
+
 }
 
 void MainWindow::setTiming(int timing)
@@ -71,6 +118,12 @@ void MainWindow::setTiming(int timing)
     this->timing = timing * 1000; // Segundos para milisegundos
     killTimer(timerId);
     this->timerId = startTimer(this->timing);
+}
+
+void MainWindow::updateIp()
+{
+    QListWidgetItem *item_select = ui->listWidget->currentItem();
+    setIpGetData(item_select->text());
 }
 
 void MainWindow::getData(){
@@ -109,6 +162,18 @@ void MainWindow::setReceive(bool receive)
 void MainWindow::setConnected(bool connected)
 {
     this->connected = connected;
+}
+
+void MainWindow::addItemListWidget(const QString ip)
+{
+    QListWidgetItem *item = new QListWidgetItem(ip);
+    ui->listWidget->addItem(item);
+
+}
+
+void MainWindow::setIpGetData(const QString ipGetData)
+{
+    this->ipGetData = ipGetData;
 }
 
 
