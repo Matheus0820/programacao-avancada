@@ -141,7 +141,7 @@ void MainWindow::getData(){
   if(socket->state() == QAbstractSocket::ConnectedState){
     if(socket->isOpen()){
       qDebug() << "reading...";
-      socket->write("get 127.0.0.1 5\r\n");
+      socket->write("get 127.0.0.1 1\r\n");
       socket->waitForBytesWritten();
       socket->waitForReadyRead();
       qDebug() << socket->bytesAvailable();
@@ -155,8 +155,7 @@ void MainWindow::getData(){
           str = list.at(1);
           qDebug() << thetime << ": " << str;
 
-          // Verificar se o tempo de envio é o mesmo. Ou seja, se o thetime enviado antes do atual for igual ao atual
-          // O atual e o anterior são os mesmo, logo não devo ler. Lógica será implementada no plotter.cpp
+          // Definindo base de tempo
           int base_temp = this->timing/1000;
           ui->widget->setNewPoint(base_temp, str.toFloat());
 
@@ -198,6 +197,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::timerEvent(QTimerEvent *event)
 {
+    qDebug() << "Tempo de recepção dos dados: " << this->timing / 1000 << "s";
     if(connected && receive) {
         getData();
         qDebug() << "Recebendo dados";

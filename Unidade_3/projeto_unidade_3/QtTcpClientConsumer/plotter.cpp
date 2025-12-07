@@ -7,8 +7,8 @@ Plotter::Plotter(QWidget *parent)
     : QWidget{parent}
 {
     // Definindo valores das variáveis
-    vector_pointers.append(QPointF(0.0, 0.0));
-    vector_pointers.append(QPointF(0.0, 0.0));
+    vector_pointers.append(QPointF(0.0, height()));
+    vector_pointers.append(QPointF(0.0, height()));
 }
 
 void Plotter::paintEvent(QPaintEvent *event)
@@ -23,8 +23,8 @@ void Plotter::paintEvent(QPaintEvent *event)
     painter.setBrush(brush);
 
     // Definindo cor da pen e como a pen atual
-    pen.setColor(QColor(0, 0, 0));
-    pen.setWidth(3);
+    pen.setColor(QColor(0, 0, 255));
+    pen.setWidth(2);
     painter.setPen(pen);
 
     // Definindo cor da tela
@@ -46,6 +46,10 @@ void Plotter::paintEvent(QPaintEvent *event)
         float x1 = (p1.x() - offSetX);
         float y1 = p1.y();
 
+        // qDebug() << "x0 = " << x0 << " y0 = " << y0;
+        // qDebug() << "x1 = " << x1 << " y1 = " << y1;
+
+
         painter.drawLine(x0, y0, x1, y1);
     }
 
@@ -60,4 +64,9 @@ void Plotter::setNewPoint(int t, float v)
 
     vector_pointers.append(QPoint(x, y));
     repaint();
+}
+
+QPointF Plotter::getLastPoint()
+{
+    return vector_pointers.last();
 }

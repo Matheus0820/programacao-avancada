@@ -18,6 +18,7 @@ public:
     explicit Plotter(QWidget *parent = nullptr);
     void paintEvent(QPaintEvent *event);
     void setNewPoint(int t, float v);
+    QPointF getLastPoint();
 
 signals:
 };
