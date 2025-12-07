@@ -1,17 +1,23 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "plotter.h"
 #include <QDateTime>
 
 MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent),
   ui(new Ui::MainWindow)
 {
+    // Iniciando valores das variáveis
+    timing = 1000;
+    connected = false;
+    receive = false;
+    ipGetData = "127.0.0.1";
 
-  ui->setupUi(this);
-  socket = new QTcpSocket(this);
-  this->timerId = startTimer(1000); // Tempo padrão de recepção de dados é 1 segundo
-  ui->labelStatus->setText("Initialized...");
-  ui->labelStatus->setStyleSheet("color: grey");
+    ui->setupUi(this);
+    socket = new QTcpSocket(this);
+    this->timerId = startTimer(1000); // Tempo padrão de recepção de dados é 1 segundo
+    ui->labelStatus->setText("Initialized...");
+    ui->labelStatus->setStyleSheet("color: grey");
 
     // Connect do botão Connect
   connect(
@@ -123,7 +129,7 @@ void MainWindow::setTiming(int timing)
 void MainWindow::updateIp()
 {
     QListWidgetItem *item_select = ui->listWidget->currentItem();
-    setIpGetData(item_select->text());
+    setIpGetData(QString(item_select->text()));
 }
 
 void MainWindow::getData(){
@@ -148,6 +154,12 @@ void MainWindow::getData(){
           thetime = str.toLongLong(&ok);
           str = list.at(1);
           qDebug() << thetime << ": " << str;
+
+          // Verificar se o tempo de envio é o mesmo. Ou seja, se o thetime enviado antes do atual for igual ao atual
+          // O atual e o anterior são os mesmo, logo não devo ler. Lógica será implementada no plotter.cpp
+          int base_temp = this->timing/1000;
+          ui->widget->setNewPoint(base_temp, str.toFloat());
+
         }
       }
     }

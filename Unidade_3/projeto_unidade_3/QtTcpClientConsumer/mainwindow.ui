@@ -296,7 +296,7 @@
      </layout>
     </item>
     <item>
-     <widget class="QWidget" name="widget" native="true"/>
+     <widget class="Plotter" name="widget" native="true"/>
     </item>
    </layout>
   </widget>
@@ -321,6 +321,14 @@
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>Plotter</class>
+   <extends>QWidget</extends>
+   <header>plotter.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>
