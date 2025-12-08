@@ -13,11 +13,14 @@ MainWindow::MainWindow(QWidget *parent) :
     receive = false;
     ipGetData = "127.0.0.1";
 
+
     ui->setupUi(this);
     socket = new QTcpSocket(this);
     this->timerId = startTimer(1000); // Tempo padrão de recepção de dados é 1 segundo
     ui->labelStatus->setText("Initialized...");
     ui->labelStatus->setStyleSheet("color: grey");
+    ui->pushButtonStart->setDisabled(true);
+    ui->pushButtonStop->setDisabled(true);
 
     // Connect do botão Connect
   connect(
@@ -130,6 +133,8 @@ void MainWindow::updateIp()
 {
     QListWidgetItem *item_select = ui->listWidget->currentItem();
     setIpGetData(QString(item_select->text()));
+    ui->pushButtonStart->setDisabled(false);
+    ui->pushButtonStop->setDisabled(false);
 }
 
 void MainWindow::getData(){
@@ -138,10 +143,12 @@ void MainWindow::getData(){
   QStringList list;
   qint64 thetime;
   qDebug() << "to get data...";
+  QString ipGet; // = "get 127.0.0.1 1\r\n";
+  ipGet = "get " + ipGetData + " 1\r\n";
   if(socket->state() == QAbstractSocket::ConnectedState){
     if(socket->isOpen()){
       qDebug() << "reading...";
-      socket->write("get 127.0.0.1 1\r\n");
+      socket->write(ipGet.toUtf8());
       socket->waitForBytesWritten();
       socket->waitForReadyRead();
       qDebug() << socket->bytesAvailable();
