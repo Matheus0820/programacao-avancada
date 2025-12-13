@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->timerId = startTimer(1000); // Tempo padrão de recepção de dados é 1 segundo
     ui->labelStatus->setText("Initialized...");
     ui->labelStatus->setStyleSheet("color: grey");
+    ui->pushButtonUpdate->setDisabled(true);
     ui->pushButtonStart->setDisabled(true);
     ui->pushButtonStop->setDisabled(true);
 
@@ -53,6 +54,14 @@ MainWindow::MainWindow(QWidget *parent) :
       SLOT(setFalseReceive())
       );
 
+  // Connect do Select
+  connect(
+      ui->listWidget,
+      SIGNAL(itemSelectionChanged()),
+      this,
+      SLOT(selectedItem())
+      );
+
   // Connect do botão Update
   connect(
       ui->pushButtonUpdate,
@@ -69,10 +78,6 @@ MainWindow::MainWindow(QWidget *parent) :
       SLOT(setTiming(int))
       );
 
-  // connect(ui->pushButtonGet,
-  //         SIGNAL(clicked(bool)),
-  //         this,
-  //         SLOT(getData()));
 }
 
 void MainWindow::tcpConnect(){
@@ -127,6 +132,11 @@ void MainWindow::setTiming(int timing)
     this->timing = timing * 1000; // Segundos para milisegundos
     killTimer(timerId);
     this->timerId = startTimer(this->timing);
+}
+
+void MainWindow::selectedItem()
+{
+    ui->pushButtonUpdate->setDisabled(false);
 }
 
 void MainWindow::updateIp()
@@ -194,15 +204,13 @@ void MainWindow::setIpGetData(const QString ipGetData)
     this->ipGetData = ipGetData;
 }
 
-
-
 MainWindow::~MainWindow()
 {
   delete socket;
   delete ui;
 }
 
-void MainWindow::timerEvent(QTimerEvent *event)
+void MainWindow::timerEvent(QTimerEvent *)
 {
     qDebug() << "Tempo de recepção dos dados: " << this->timing / 1000 << "s";
     if(connected && receive) {

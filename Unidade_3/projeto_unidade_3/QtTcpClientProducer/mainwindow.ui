@@ -324,7 +324,7 @@
      </layout>
     </item>
     <item>
-     <widget class="QListWidget" name="listWidget"/>
+     <widget class="QTextBrowser" name="textBrowser"/>
     </item>
    </layout>
   </widget>
@@ -334,7 +334,7 @@
      <x>0</x>
      <y>0</y>
      <width>715</width>
-     <height>23</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>

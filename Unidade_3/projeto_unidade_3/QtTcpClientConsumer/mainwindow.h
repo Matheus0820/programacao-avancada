@@ -34,6 +34,7 @@ public slots:
   void setTrueReceive();
   void setFalseReceive();
   void setTiming(int timing);
+  void selectedItem();
   void updateIp();
 
 private:

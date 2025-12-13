@@ -162,7 +162,7 @@ void MainWindow::putData(){
        QString::number(valor_aleatorio, 'g', 4)+"\r\n";
 
 
-    putMessage(str, ui->listWidget->palette().text().color());
+    putMessage(str, ui->textBrowser->palette().text().color());
     qDebug() << str;
     qDebug() << socket->write(str.toStdString().c_str())
                << " bytes written";
@@ -182,14 +182,8 @@ void MainWindow::timerEvent(QTimerEvent *event)
 
 void MainWindow::putMessage(const QString &mensagem, const QColor &cor)
 {
-    QListWidgetItem *item = new QListWidgetItem(mensagem);
-
-    // Setando cor
-    QBrush brush(cor);
-    item->setForeground(brush);
-
-    // Adicionando item no listWidgets
-    ui->listWidget->addItem(item);
+    QString saidaTextBrowser = QString("<span style='color:%1;'><strong>%2</strong></span><br>").arg(cor.name(), mensagem.toHtmlEscaped());
+    ui->textBrowser->append(saidaTextBrowser);
 }
 
 
